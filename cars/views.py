@@ -12,6 +12,14 @@ def car_list(request):
 
     if request.method == 'GET':
         cars = Car.objects.all()
+        dealership_name = request.query_params.get('dealership')
+        print(dealership_name)
+
+        queryset = Car.objects.all()
+
+        if dealership_name:
+            queryset = queryset.filter(dealership__name=dealership_name)
+
         serializer = CarSerializer(cars, many=True)
         return Response(serializer.data)
     elif request.method == 'POST':    
